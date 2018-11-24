@@ -1,7 +1,15 @@
 const net = require('net');
+const assert = require('assert');
+const {
+    parse: parseUrl,
+} = require('url');
 
-const proxyHost = 'localhost';
-const proxyPort = 8080;
+assert(process.argv[2], 'http-proxy-server arg ("hostname:port") required.');
+
+const {
+    hostname: proxyHost,
+    port: proxyPort,
+} = parseUrl(`http://${process.argv[2]}`);
 
 const destHost = 'example.com';
 const destPort = 80;
