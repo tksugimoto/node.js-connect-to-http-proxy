@@ -19,10 +19,10 @@ const destPort = process.argv[4];
 
 const CRLF = '\r\n';
 
-const serverSocket = net.createConnection(proxyPort, proxyHost);
-serverSocket.once('connect', () => {
-    serverSocket.write(`CONNECT ${destHost}:${destPort} HTTP/1.0${CRLF}${CRLF}`);
-    serverSocket.once('data', data => {
+const proxySocket = net.createConnection(proxyPort, proxyHost);
+proxySocket.once('connect', () => {
+    proxySocket.write(`CONNECT ${destHost}:${destPort} HTTP/1.0${CRLF}${CRLF}`);
+    proxySocket.once('data', data => {
         const response = data.toString();
         const statusLine = response.split(CRLF)[0];
         const [/* version */, statusCode] = statusLine.split(' ');
@@ -30,10 +30,10 @@ serverSocket.once('connect', () => {
             console.error(statusLine);
             return;
         }
-        process.stdin.pipe(serverSocket);
-        serverSocket.pipe(process.stdout);
+        process.stdin.pipe(proxySocket);
+        proxySocket.pipe(process.stdout);
     });
 });
-serverSocket.on('error', err => {
+proxySocket.on('error', err => {
     console.error(err);
 });
