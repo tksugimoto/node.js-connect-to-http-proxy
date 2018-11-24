@@ -11,8 +11,11 @@ const {
     port: proxyPort,
 } = parseUrl(`http://${process.argv[2]}`);
 
-const destHost = 'example.com';
-const destPort = 80;
+
+assert(process.argv[3], 'destination-server host arg required.');
+assert(process.argv[4], 'destination-server port arg required.');
+const destHost = process.argv[3];
+const destPort = process.argv[4];
 
 const CRLF = '\r\n';
 
