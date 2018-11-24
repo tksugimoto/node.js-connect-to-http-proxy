@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const net = require('net');
 const assert = require('assert');
 const {
