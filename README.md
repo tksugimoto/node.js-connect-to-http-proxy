@@ -6,8 +6,26 @@
 プログラム
 
 ## 使用法
+### 一時使用
+このフォルダでのみ使用可能
+
 ```
 node index.js <プロキシサーバーHost>:<プロキシサーバーPort> <接続先Host> <接続先Port>
+```
+
+### グローバルインストール
+メリット: 実行場所を問わない
+
+#### 事前準備
+PATHを通す
+
+```
+npm install --global
+```
+
+#### コマンド実行
+```
+connect-to-http-proxy <プロキシサーバーHost>:<プロキシサーバーPort> <接続先Host> <接続先Port>
 ```
 
 ## 使用例
@@ -15,6 +33,10 @@ node index.js <プロキシサーバーHost>:<プロキシサーバーPort> <接
 
 ### コマンド
 $ `node index.js localhost:8080 example.com 80`
+
+または
+
+$ `connect-to-http-proxy localhost:8080 example.com 80`
 
 ### 標準入力
 ```
