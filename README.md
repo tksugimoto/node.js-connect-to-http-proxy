@@ -33,14 +33,14 @@ connect-to-http-proxy <プロキシサーバーHost>:<プロキシサーバーPo
 ```
 
 ## 使用例
-プロキシサーバー `localhost:8080` を経由して `example.com:80` にHTTPリクエストを送る例
+プロキシサーバー `proxy.intra.example.co.jp:8080` を経由して `example.com:80` にHTTPリクエストを送る例
 
 ### コマンド
-$ `node index.js localhost:8080 example.com 80`
+$ `node index.js proxy.intra.example.co.jp:8080 example.com 80`
 
 または
 
-$ `connect-to-http-proxy localhost:8080 example.com 80`
+$ `connect-to-http-proxy proxy.intra.example.co.jp:8080 example.com 80`
 
 ### 標準入力
 ```http
