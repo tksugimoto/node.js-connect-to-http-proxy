@@ -52,3 +52,18 @@ Cache-Control: max-age=604800
 Content-Type: text/html; charset=UTF-8
 ...(略)
 ```
+
+## ssh での使用例
+
+`~/.ssh/config`
+
+```sh
+Host github.com gist.github.com
+	HostName			ssh.github.com
+	Port				443
+	IdentityFile		~/.ssh/keys/github
+	# グローバルインストール している場合
+	ProxyCommand		connect-to-http-proxy proxy.intra.example.co.jp:8080 %h %p
+	# node <filepath> 形式での実行も可能
+	# ProxyCommand		node ~/code/connect-to-http-proxy/index.js proxy.intra.example.co.jp:8080 %h %p
+```
