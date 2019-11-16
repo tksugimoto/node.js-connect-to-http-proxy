@@ -42,6 +42,9 @@ function connect(proxyServerHosts, destHostname, destPort, inputStream, outputSt
                 port: proxyPort,
                 method: 'CONNECT',
                 path: `${destHostname}:${destPort}`,
+                headers: {
+                    'User-Agent': 'connect-to-http-proxy',
+                },
             };
             const proxyRequest = http.request(proxyRequestOptions);
             setTimeout(() => {
