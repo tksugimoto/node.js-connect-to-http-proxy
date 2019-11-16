@@ -24,6 +24,9 @@ const proxyRequestOptions = {
     port: proxyPort,
     method: 'CONNECT',
     path: `${destHost}:${destPort}`,
+    headers: {
+        'User-Agent': 'connect-to-http-proxy',
+    },
 };
 const proxyRequest = http.request(proxyRequestOptions);
 proxyRequest.on('connect', (res, proxySocket) => {
