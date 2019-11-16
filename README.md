@@ -43,14 +43,14 @@ $ `node index.js localhost:8080 example.com 80`
 $ `connect-to-http-proxy localhost:8080 example.com 80`
 
 ### 標準入力
-```
+```http
 GET / HTTP/1.0
 Host: example.com
 
 ```
 
 ### 標準出力
-```
+```http
 HTTP/1.0 200 OK
 Cache-Control: max-age=604800
 Content-Type: text/html; charset=UTF-8
