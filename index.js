@@ -6,18 +6,20 @@ const {
     parse: parseUrl,
 } = require('url');
 
-assert(process.argv[2], 'http-proxy-server arg ("hostname:port") required.');
+const proxyServerHost = process.argv[2];
+const destHost = process.argv[3];
+const destPort = process.argv[4];
+
+assert(proxyServerHost, 'http-proxy-server arg ("hostname:port") required.');
 
 const {
     hostname: proxyHost,
     port: proxyPort,
-} = parseUrl(`http://${process.argv[2]}`);
+} = parseUrl(`http://${proxyServerHost}`);
 
 
-assert(process.argv[3], 'destination-server host arg required.');
-assert(process.argv[4], 'destination-server port arg required.');
-const destHost = process.argv[3];
-const destPort = process.argv[4];
+assert(destHost, 'destination-server host arg required.');
+assert(destPort, 'destination-server port arg required.');
 
 const proxyRequestOptions = {
     hostname: proxyHost,
