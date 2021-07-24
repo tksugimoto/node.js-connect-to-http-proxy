@@ -7,25 +7,25 @@ const {
 /**
  *
  * @param {string} proxyServerHost (`${FQDN || IP}:${port}`)
- * @param {string} destHost destination-server host (FQDN or IP)
+ * @param {string} destHostname destination-server hostname (FQDN or IP)
  * @param {string} destPort destination-server port (numeric string)
  */
-function connect(proxyServerHost, destHost, destPort) {
+function connect(proxyServerHost, destHostname, destPort) {
     assert(proxyServerHost, 'http-proxy-server arg ("hostname:port") required.');
 
     const {
-        hostname: proxyHost,
+        hostname: proxyHostname,
         port: proxyPort,
     } = parseUrl(`http://${proxyServerHost}`);
 
-    assert(destHost, 'destination-server host arg required.');
+    assert(destHostname, 'destination-server hostname arg required.');
     assert(destPort, 'destination-server port arg required.');
 
     const proxyRequestOptions = {
-        hostname: proxyHost,
+        hostname: proxyHostname,
         port: proxyPort,
         method: 'CONNECT',
-        path: `${destHost}:${destPort}`,
+        path: `${destHostname}:${destPort}`,
     };
     const proxyRequest = http.request(proxyRequestOptions);
     proxyRequest.on('connect', (res, proxySocket) => {
