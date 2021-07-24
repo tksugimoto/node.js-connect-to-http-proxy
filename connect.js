@@ -1,8 +1,5 @@
 const http = require('http');
 const assert = require('assert');
-const {
-    parse: parseUrl,
-} = require('url');
 
 /**
  *
@@ -16,7 +13,7 @@ function connect(proxyServerHost, destHostname, destPort) {
     const {
         hostname: proxyHostname,
         port: proxyPort,
-    } = parseUrl(`http://${proxyServerHost}`);
+    } = new URL(`http://${proxyServerHost}`);
 
     assert(destHostname, 'destination-server hostname arg required.');
     assert(destPort, 'destination-server port arg required.');
