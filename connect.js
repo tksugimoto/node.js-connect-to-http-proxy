@@ -11,14 +11,13 @@ const assert = require('assert');
  */
 function connect(proxyServerHost, destHostname, destPort, inputStream, outputStream) {
     assert(proxyServerHost, 'http-proxy-server arg ("hostname:port") required.');
+    assert(destHostname, 'destination-server hostname arg required.');
+    assert(destPort, 'destination-server port arg required.');
 
     const {
         hostname: proxyHostname,
         port: proxyPort,
     } = new URL(`http://${proxyServerHost}`);
-
-    assert(destHostname, 'destination-server hostname arg required.');
-    assert(destPort, 'destination-server port arg required.');
 
     const proxyRequestOptions = {
         hostname: proxyHostname,
