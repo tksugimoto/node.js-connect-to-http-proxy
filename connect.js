@@ -14,30 +14,40 @@ function connect(proxyServerHost, destHostname, destPort, inputStream, outputStr
     assert(destHostname, 'destination-server hostname arg required.');
     assert(destPort, 'destination-server port arg required.');
 
-    const {
-        hostname: proxyHostname,
-        port: proxyPort,
-    } = new URL(`http://${proxyServerHost}`);
-
-    const proxyRequestOptions = {
-        hostname: proxyHostname,
-        port: proxyPort,
-        method: 'CONNECT',
-        path: `${destHostname}:${destPort}`,
-    };
-    const proxyRequest = http.request(proxyRequestOptions);
-    proxyRequest.on('connect', (res, proxySocket) => {
-        if (res.statusCode !== 200) {
-            console.error(`${res.statusCode} ${res.statusMessage}`);
-            return;
-        }
+    connectToProxyServer()
+    .then(proxySocket => {
         inputStream.pipe(proxySocket);
         proxySocket.pipe(outputStream);
-    });
-    proxyRequest.on('error', err => {
-        console.error(err);
-    });
-    proxyRequest.end();
+    })
+    .catch(err => console.error(err));
+
+    function connectToProxyServer() {
+        return new Promise((resolve, reject) => {
+            const {
+                hostname: proxyHostname,
+                port: proxyPort,
+            } = new URL(`http://${proxyServerHost}`);
+
+            const proxyRequestOptions = {
+                hostname: proxyHostname,
+                port: proxyPort,
+                method: 'CONNECT',
+                path: `${destHostname}:${destPort}`,
+            };
+            const proxyRequest = http.request(proxyRequestOptions);
+            proxyRequest.on('connect', (res, proxySocket) => {
+                if (res.statusCode !== 200) {
+                    reject(`${res.statusCode} ${res.statusMessage}`);
+                    return;
+                }
+                resolve(proxySocket);
+            });
+            proxyRequest.on('error', err => {
+                reject(err);
+            });
+            proxyRequest.end();
+        });
+    }
 }
 
 module.exports = connect;
