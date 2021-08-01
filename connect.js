@@ -6,8 +6,10 @@ const assert = require('assert');
  * @param {string} proxyServerHost (`${FQDN || IP}:${port}`)
  * @param {string} destHostname destination-server hostname (FQDN or IP)
  * @param {string} destPort destination-server port (numeric string)
+ * @param {NodeJS.ReadStream} inputStream stream supplying input like process.stdin
+ * @param {NodeJS.WriteStream} outputStream stream that accepts output like process.stdout
  */
-function connect(proxyServerHost, destHostname, destPort) {
+function connect(proxyServerHost, destHostname, destPort, inputStream, outputStream) {
     assert(proxyServerHost, 'http-proxy-server arg ("hostname:port") required.');
 
     const {
@@ -30,8 +32,8 @@ function connect(proxyServerHost, destHostname, destPort) {
             console.error(`${res.statusCode} ${res.statusMessage}`);
             return;
         }
-        process.stdin.pipe(proxySocket);
-        proxySocket.pipe(process.stdout);
+        inputStream.pipe(proxySocket);
+        proxySocket.pipe(outputStream);
     });
     proxyRequest.on('error', err => {
         console.error(err);
