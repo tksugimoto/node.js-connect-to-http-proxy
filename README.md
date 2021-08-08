@@ -35,6 +35,15 @@ npm install --global
 connect-to-http-proxy <プロキシサーバーHostname>:<プロキシサーバーPort> <接続先Hostname> <接続先Port>
 ```
 
+#### 接続先プロキシサーバーの複数指定
+`<プロキシサーバーHostname>:<プロキシサーバーPort>` は `,` (カンマ) 区切りで複数指定することが可能
+
+```
+connect-to-http-proxy proxy.intra.example.co.jp:8080,proxy.intra.example.co.jp:8081 example.com 80
+```
+
+`proxy.pac` のように、先頭から接続を試みて、 `500 ms` 以内に `CONNECT` に成功しない場合は次のプロキシサーバーへの接続を試みる
+
 ## 使用例
 プロキシサーバー `proxy.intra.example.co.jp:8080` を経由して `example.com:80` にHTTPリクエストを送る例
 
