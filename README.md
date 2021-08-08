@@ -17,7 +17,7 @@
 このフォルダでのみ使用可能
 
 ```
-node index.js <プロキシサーバーHost>:<プロキシサーバーPort> <接続先Host> <接続先Port>
+node index.js <プロキシサーバーHostname>:<プロキシサーバーPort> <接続先Hostname> <接続先Port>
 ```
 
 ### グローバルインストール
@@ -32,7 +32,7 @@ npm install --global
 
 #### コマンド実行
 ```
-connect-to-http-proxy <プロキシサーバーHost>:<プロキシサーバーPort> <接続先Host> <接続先Port>
+connect-to-http-proxy <プロキシサーバーHostname>:<プロキシサーバーPort> <接続先Hostname> <接続先Port>
 ```
 
 ## 使用例
