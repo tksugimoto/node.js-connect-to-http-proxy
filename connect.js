@@ -14,11 +14,14 @@ function connect(proxyServerHosts, destHostname, destPort, inputStream, outputSt
     assert(destHostname, 'destination-server hostname arg required.');
     assert(destPort, 'destination-server port arg required.');
 
+    const start = Date.now();
+
     proxyServerHosts.split(',')
     .reduce((previousPromise, proxyServerHost) => {
         return previousPromise.catch(() => { // 前のserverへの接続に失敗した場合のみ次のserverへ接続する
             return connectToProxyServer(proxyServerHost)
             .then(proxySocket => {
+                console.error(`${Date.now() - start} ms: ${proxyServerHost}: connected`);
                 inputStream.pipe(proxySocket);
                 proxySocket.pipe(outputStream);
             });
@@ -61,6 +64,9 @@ function connect(proxyServerHosts, destHostname, destPort, inputStream, outputSt
                 reject(err);
             });
             proxyRequest.end();
+        });
+        promise.catch(() => {
+            console.error(`${Date.now() - start} ms: ${proxyServerHost}: timeout`);
         });
         return promise;
     }
