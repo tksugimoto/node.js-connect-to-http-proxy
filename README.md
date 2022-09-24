@@ -83,3 +83,10 @@ Host github.com gist.github.com
 	# node <filepath> 形式での実行も可能
 	# ProxyCommand		node ~/code/connect-to-http-proxy/index.js -H proxy.intra.example.co.jp:8080 %h %p
 ```
+
+## SOCKS4 の使用
+`-S` を `proxyHost:Port` の前に入れる
+
+```
+connect-to-http-proxy -S proxy.intra.example.co.jp:1080 example.com 80
+```
