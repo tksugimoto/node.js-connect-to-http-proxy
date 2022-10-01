@@ -102,6 +102,20 @@ test('destPort が指定されていない場合例外が投げられる', () =>
     }).toThrowError('destination-server port arg required.');
 });
 
+test('options.timeoutMs が Integer ではない場合例外が投げられる', () => {
+    const proxyServerHost = 'localhost:8080';
+    const destHostname = 'localhost';
+    const destPort = '12345';
+    const inputStream = new PassThrough();
+    const outputStream = new PassThrough();
+    const timeoutMs = 'aaa';
+    expect(() => {
+        connect(proxyServerHost, destHostname, destPort, inputStream, outputStream, {
+            timeoutMs,
+        });
+    }).toThrowError('timeoutMs must be Integer.');
+});
+
 test('Proxy server へ接続する', () => {
     return createProxyServer().then(({
         proxyServerHost,
@@ -159,17 +173,20 @@ test('Proxy server が複数指定されている場合、1番目へのconnect�
         const destPort = '12345';
         const inputStream = new PassThrough();
         const outputStream = new PassThrough();
+        const timeoutMs = 500;
         const responsePromise = new Promise(resolve => {
             outputStream.once('data', chunk =>  resolve(chunk.toString()));
         });
 
-        connect(proxyServerHost, destHostname, destPort, inputStream, outputStream);
+        connect(proxyServerHost, destHostname, destPort, inputStream, outputStream, {
+            timeoutMs,
+        });
         inputStream.end('test_input');
 
         return Promise.all([
             expect(responsePromise).resolves.toBe(generateResponse('test_input')),
             expect(server1.connectRequestUrlPromise).resolves.toBe(`${destHostname}:${destPort}`),
-            expect(server2.connectRequestUrlPromise).willNotSettle(800 /* ms */),
+            expect(server2.connectRequestUrlPromise).willNotSettle(timeoutMs + 300 /* ms */),
         ]);
     });
 });
