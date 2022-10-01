@@ -32,14 +32,14 @@ npm install --global
 
 #### コマンド実行
 ```
-connect-to-http-proxy <プロキシサーバーHostname>:<プロキシサーバーPort> <接続先Hostname> <接続先Port>
+connect-to-http-proxy -H <プロキシサーバーHostname>:<プロキシサーバーPort> <接続先Hostname> <接続先Port>
 ```
 
 #### 接続先プロキシサーバーの複数指定
 `<プロキシサーバーHostname>:<プロキシサーバーPort>` は `,` (カンマ) 区切りで複数指定することが可能
 
 ```
-connect-to-http-proxy proxy.intra.example.co.jp:8080,proxy.intra.example.co.jp:8081 example.com 80
+connect-to-http-proxy -H proxy.intra.example.co.jp:8080,proxy.intra.example.co.jp:8081 example.com 80
 ```
 
 `proxy.pac` のように、先頭から接続を試みて、 `500 ms` 以内に `CONNECT` に成功しない場合は次のプロキシサーバーへの接続を試みる
@@ -48,11 +48,11 @@ connect-to-http-proxy proxy.intra.example.co.jp:8080,proxy.intra.example.co.jp:8
 プロキシサーバー `proxy.intra.example.co.jp:8080` を経由して `example.com:80` にHTTPリクエストを送る例
 
 ### コマンド
-$ `node index.js proxy.intra.example.co.jp:8080 example.com 80`
+$ `node index.js -H proxy.intra.example.co.jp:8080 example.com 80`
 
 または
 
-$ `connect-to-http-proxy proxy.intra.example.co.jp:8080 example.com 80`
+$ `connect-to-http-proxy -H proxy.intra.example.co.jp:8080 example.com 80`
 
 ### 標準入力
 ```http
@@ -79,7 +79,7 @@ Host github.com gist.github.com
 	Port				443
 	IdentityFile		~/.ssh/keys/github
 	# グローバルインストール している場合
-	ProxyCommand		connect-to-http-proxy proxy.intra.example.co.jp:8080 %h %p
+	ProxyCommand		connect-to-http-proxy -H proxy.intra.example.co.jp:8080 %h %p
 	# node <filepath> 形式での実行も可能
-	# ProxyCommand		node ~/code/connect-to-http-proxy/index.js proxy.intra.example.co.jp:8080 %h %p
+	# ProxyCommand		node ~/code/connect-to-http-proxy/index.js -H proxy.intra.example.co.jp:8080 %h %p
 ```

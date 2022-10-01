@@ -3,10 +3,10 @@
 const showUsageAndExit = () => {
     console.error(`
         connect-to-http-proxy: simple relaying command via proxy.
-        usage: connect-to-http-proxy proxy-server-hostname:proxy-server-port target-hostname target-port
+        usage: connect-to-http-proxy [-H] proxy-server-hostname:proxy-server-port target-hostname target-port
         example:
-            connect-to-http-proxy proxy.intra.example.co.jp:8080 example.com 80
-            connect-to-http-proxy proxy.intra.example.co.jp:8080,proxy.intra.example.co.jp:8081 example.com 80
+            connect-to-http-proxy -H proxy.intra.example.co.jp:8080 example.com 80
+            connect-to-http-proxy -H proxy.intra.example.co.jp:8080,proxy.intra.example.co.jp:8081 example.com 80
     `.replace(/^ {8}/mg, '').trim());
 
     process.exit(1);
