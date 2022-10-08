@@ -8,11 +8,15 @@ const assert = require('assert');
  * @param {string} destPort destination-server port (numeric string)
  * @param {NodeJS.ReadStream} inputStream stream supplying input like process.stdin
  * @param {NodeJS.WriteStream} outputStream stream that accepts output like process.stdout
+ * @param {object} options
+ * @param {number?} options.timeoutMs timeout to CONNECT(HTTP method)
  */
-function connect(proxyServerHosts, destHostname, destPort, inputStream, outputStream) {
+function connect(proxyServerHosts, destHostname, destPort, inputStream, outputStream, options = {}) {
     assert(proxyServerHosts, 'http-proxy-server arg ("hostname:port") required.');
     assert(destHostname, 'destination-server hostname arg required.');
     assert(destPort, 'destination-server port arg required.');
+    const timeoutMs = options.timeoutMs || 500;
+    assert(Number.isInteger(timeoutMs), 'timeoutMs must be Integer.');
 
     proxyServerHosts.split(',')
     .reduce((previousPromise, proxyServerHost) => {
@@ -40,7 +44,6 @@ function connect(proxyServerHosts, destHostname, destPort, inputStream, outputSt
                 path: `${destHostname}:${destPort}`,
             };
             const proxyRequest = http.request(proxyRequestOptions);
-            const timeoutMs = 500;
             setTimeout(() => {
                 promise.catch(() => {
                     proxyRequest.destroy();
