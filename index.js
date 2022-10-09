@@ -7,6 +7,8 @@ const showUsageAndExit = () => {
         example:
             connect-to-http-proxy -H proxy.intra.example.co.jp:8080 example.com 80
             connect-to-http-proxy -H proxy.intra.example.co.jp:8080,proxy.intra.example.co.jp:8081 example.com 80
+        environment variable:
+            SSH_CONNECT_TIMEOUT_MS: timeout to CONNECT(HTTP method). default: 500.
     `.replace(/^ {8}/mg, '').trim());
 
     process.exit(1);
